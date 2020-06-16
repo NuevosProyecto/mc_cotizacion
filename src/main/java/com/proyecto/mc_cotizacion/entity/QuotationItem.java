@@ -4,33 +4,38 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "detailQuotation")
-@ApiModel("Model DetailQuotation")
-public class DetailQuotation {
+@Table(name = "items_quotation")
+@ApiModel("Model QuotationItem")
+public class QuotationItem {
+	
+	@Column(name = "id")
+    private Integer id;
+	
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "idDetail")
-    @ApiModelProperty(value = "idDetail")
-    @Column(name = "idDetail")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "id_detail")
+    @ApiModelProperty(value = "id_detail")
+    @Column(name = "id_detail")
     private Long idDetail;
 
-    @ApiModelProperty(value = "desciption")
-    @Column(name = "desciption")
-    private  String desciption;
+    @ApiModelProperty(value = "description")
+    @Column(name = "description")
+    private  String description;
 
-    @ApiModelProperty(value = "unitAmount")
-    @Column(name = "unitAmount")
-    private Integer unitAmount;
+    @ApiModelProperty(value = "unit_amount")
+    @Column(name = "unit_amount")
+    private BigDecimal unitAmount;
 
     @ApiModelProperty(value = "quantity")
     @Column(name = "quantity")
     private Integer quantity;
 
-    @ApiModelProperty(value = "totalDetailAmount")
-    @Column(name = "totalDetailAmount")
-    private Integer totalDetailAmount;
+    @Transient
+    private BigDecimal totalDetailAmount;
 
 }

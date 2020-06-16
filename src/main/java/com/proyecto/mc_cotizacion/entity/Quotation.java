@@ -6,11 +6,12 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
-@Table(name = "quotation")
-@ApiModel("Model Quotation")
+@Table(name = "quotations")
+@ApiModel("Model Quotations")
 public class Quotation {
 
     @Id
@@ -19,27 +20,26 @@ public class Quotation {
     @Column(name = "Id")
     private Long id;
 
-    @ApiModelProperty(value = "numberQuotation")
-    @Column(name = "numberQuotation")
+    @ApiModelProperty(value = "number_quotation")
+    @Column(name = "number_quotation")
     private String numberQuotation;
 
     @ApiModelProperty(value = "client")
     @Column(name = "client")
     private String client;
 
-    @ApiModelProperty(value = "dateQuotation")
-    @Column(name = "dateQuotation")
+    @ApiModelProperty(value = "date_quotation")
+    @Column(name = "date_quotation")
     private Date dateQuotation;
 
-    @ApiModelProperty(value = "totalAmount")
-    @Column(name = "totalAmount")
+    @Transient
     private String totalAmount;
 
     @ApiModelProperty(value = "status")
     @Column(name = "status")
-    private String status;
+    private QuotationStatus status;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name= "idDetail")
-    private Integer idDetail;
+    @JoinColumn(name= "id")    
+    private List<QuotationItem> items;
 }
