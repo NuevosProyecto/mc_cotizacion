@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class QuotationItem {
 	
 	@Column(name = "id")
-    private Integer id;
+    private Long id;
 	
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "id_detail")
