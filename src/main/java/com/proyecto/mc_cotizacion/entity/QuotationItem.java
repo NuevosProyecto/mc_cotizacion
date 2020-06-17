@@ -2,12 +2,14 @@ package com.proyecto.mc_cotizacion.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 import javax.persistence.*;
 
+@Builder
 @Data
 @Entity
 @Table(name = "items_quotation")

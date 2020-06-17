@@ -12,5 +12,5 @@ public interface QuotationDao {
 	Completable save(QuotationRequest model);
 	Completable update(QuotationRequest model);
 	Single<QuotationResponse> getById(Long id);
-	Observable<QuotationResponse> findStatus();
+	Observable<QuotationResponse> findStatus(String status);
 }
