@@ -10,5 +10,10 @@ import java.math.BigDecimal;
 public class QuotationItemRequest {
 
     private Long id;
+    private Long idDetail;
+    private  String description;
+    private BigDecimal unitAmount;
+    private Integer quantity;
+    private BigDecimal totalDetailAmount;
 
 }
