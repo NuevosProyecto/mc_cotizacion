@@ -21,5 +21,5 @@ public class QuotationResponse {
     private QuotationStatus status;
 
     @Singular
-    private List<QuotationItem> items;
+    private List<QuotationItemResponse> items;
 }
