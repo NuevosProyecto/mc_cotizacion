@@ -1,7 +1,8 @@
 package com.proyecto.mc_cotizacion.service;
 
 
-import com.proyecto.mc_cotizacion.entity.Quotation;
+import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
+import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -9,8 +10,8 @@ import io.reactivex.Single;
 
 public interface QuotationService {
 
-	Completable save(Quotation model);
-	Completable update(Quotation model);
-	Single<Quotation> getById(Long id);
-	Observable<Quotation> findStatus();
+	Completable save(QuotationRequest model);
+	Completable update(QuotationRequest model);
+	Single<QuotationResponse> getById(Long id);
+	Observable<QuotationResponse> findStatus(String status);
 }
