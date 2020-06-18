@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.proyecto.mc_cotizacion.dao.QuotationDao;
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
 import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
+import com.proyecto.mc_cotizacion.entity.QuotationStatus;
 import com.proyecto.mc_cotizacion.service.QuotationService;
 
 import io.reactivex.Completable;
@@ -35,7 +36,7 @@ public class QuotationServiceImplement implements QuotationService {
 	}
 
 	@Override
-	public Observable<QuotationResponse> findStatus(String status) {
+	public Observable<QuotationResponse> findStatus(QuotationStatus status) {
 		return quotationDao.findStatus(status);
 	}
 

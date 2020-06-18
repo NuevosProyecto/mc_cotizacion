@@ -102,25 +102,6 @@ public class QuotationDaoImplement implements QuotationDao {
         }).toSingle();
     }
 
-    @Override
-    public Observable<QuotationResponse> findStatus(String status) {
-        return Observable.fromIterable(quotationRepository.findAll())
-                .map(quotation -> {
-                    QuotationResponse quotationResponse = new QuotationResponse();
-                    quotationResponse.setId(quotation.getId());
-                    quotationResponse.setNumberQuotation(quotation.getNumberQuotation());
-                    quotationResponse.setClient(quotation.getClient());
-                    quotationResponse.setDateQuotation(quotation.getDateQuotation());
-                    quotationResponse.setTotalAmount(getTotalAmount(getListItemResponse(quotation.getItems())));
-                    quotationResponse.setStatus(quotation.getStatus());
-                    quotationResponse.setItems(getListItemResponse(quotation.getItems()));
-                    return quotationResponse;
-                })
-                .filter(s ->  status.equals(s.getStatus()))
-                .subscribeOn(Schedulers.io())
-                ;
-    }
-
 	@Override
 	public Observable<QuotationResponse> findAll() {
 		return Observable.fromIterable(quotationRepository.findAll())
@@ -154,6 +135,42 @@ public class QuotationDaoImplement implements QuotationDao {
 
         return listItem;
     }
+	
+	@Override
+    public Observable<QuotationResponse> findStatus(QuotationStatus status) {
+		return     Observable.fromIterable(quotationRepository.findAll())
+					.filter(x -> x.getStatus().equals(status))
+					.map(quotation -> {
+						QuotationResponse.QuotationResponseBuilder builder = QuotationResponse.builder()
+								.id(quotation.getId())
+								.client(quotation.getClient())
+								.dateQuotation(quotation.getDateQuotation())
+								.numberQuotation(quotation.getNumberQuotation())
+								.items(getListItem2(quotation.getItems()))
+								.totalAmount(getTotalAmount(getListItem2(quotation.getItems())));
+						
+						QuotationResponse cardB = builder.build();
+                        return cardB;
+						
+					}).subscribeOn(Schedulers.io());
+	}
+    
+    private List<QuotationItemResponse> getListItem2(List<QuotationItem> items){
+		
+		List<QuotationItemResponse> listItem=new ArrayList<>();
+		for(QuotationItem item: items) {
+			QuotationItemResponse quotationItem=QuotationItemResponse.builder().id(item.getId())
+					.idDetail(item.getIdDetail())
+					.description(item.getDescription())
+					.unitAmount(item.getUnitAmount())
+					.totalDetailAmount(getTotalAmountItems(item.getUnitAmount(),item.getQuantity()))
+					.quantity(item.getQuantity())
+					.build();
+			listItem.add(quotationItem);
+		}
+		
+		return listItem;
+	}
 	
     private Float getTotalAmountItems(Float unitAmount,Integer quantity) {
     	Float total=0f;

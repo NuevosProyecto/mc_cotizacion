@@ -12,14 +12,19 @@ import javax.persistence.Transient;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
 @Entity
 @Table(name = "items_quotation")
 @ApiModel("Model QuotationItem")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class QuotationItem {
 	
 	@Column(name = "id")

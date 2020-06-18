@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
 import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
+import com.proyecto.mc_cotizacion.entity.QuotationStatus;
 import com.proyecto.mc_cotizacion.service.QuotationService;
 
 import io.reactivex.Completable;
@@ -29,8 +30,8 @@ public class QuotationController {
 	{
 		return  quotationService.save(model);
 	}
-	@PutMapping
-	public Completable update(QuotationRequest model)
+	@PutMapping("/{id}")
+	public Completable update(@RequestBody QuotationRequest model)
 	{
 		return quotationService.update(model);
 	}
@@ -47,9 +48,9 @@ public class QuotationController {
 	}
 	
 	@GetMapping("/status/{status}")
-	public Observable<QuotationResponse> findStatus(@PathVariable ("status") String status)
+	public Observable<QuotationResponse> findStatus(@PathVariable ("status") QuotationStatus status)
 	{
-		return quotationService.findStatus(status);		
+		return quotationService.findStatus(status);
 	}	
 	
 }
