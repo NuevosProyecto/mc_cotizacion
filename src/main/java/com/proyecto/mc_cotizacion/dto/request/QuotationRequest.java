@@ -17,7 +17,6 @@ public class QuotationRequest {
     private String numberQuotation;
     private String client;
     private Date dateQuotation;
-    private String totalAmount;
     private QuotationStatus status;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

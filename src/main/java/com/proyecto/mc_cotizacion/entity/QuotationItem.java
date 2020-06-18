@@ -1,15 +1,21 @@
 package com.proyecto.mc_cotizacion.entity;
 
+import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 
-import java.math.BigDecimal;
 
-import javax.persistence.*;
-
-@Builder
 @Data
 @Entity
 @Table(name = "items_quotation")
@@ -31,13 +37,13 @@ public class QuotationItem {
 
     @ApiModelProperty(value = "unit_amount")
     @Column(name = "unit_amount")
-    private BigDecimal unitAmount;
+    private Float unitAmount;
 
     @ApiModelProperty(value = "quantity")
     @Column(name = "quantity")
     private Integer quantity;
 
     @Transient
-    private BigDecimal totalDetailAmount;
+    private Float totalDetailAmount;
 
 }

@@ -17,7 +17,7 @@ public class QuotationResponse {
     private String numberQuotation;
     private String client;
     private Date dateQuotation;
-    private String totalAmount;
+    private Float totalAmount;
     private QuotationStatus status;
 
     @Singular

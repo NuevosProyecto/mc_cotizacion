@@ -14,8 +14,8 @@ import java.math.BigDecimal;
 public class QuotationItemResponse {
     private Long id;
     private Long idDetail;
-    private  String description;
-    private BigDecimal unitAmount;
+    private String description;
+    private Float unitAmount;
     private Integer quantity;
-    private BigDecimal totalDetailAmount;
+    private Float totalDetailAmount;
 }

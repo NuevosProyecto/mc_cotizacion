@@ -16,8 +16,8 @@ public class QuotationItemRequest {
     private Long id;
     private Long idDetail;
     private  String description;
-    private BigDecimal unitAmount;
+    private Float unitAmount;
     private Integer quantity;
-    private BigDecimal totalDetailAmount;
+    //private Float totalDetailAmount;
 
 }

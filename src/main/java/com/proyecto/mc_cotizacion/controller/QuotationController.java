@@ -34,12 +34,18 @@ public class QuotationController {
 	{
 		return quotationService.update(model);
 	}
+	
+	@GetMapping
+	public Observable<QuotationResponse> findAll(){
+		return quotationService.findAll();
+	}
+	
 	@GetMapping("/id/{id}")
 	public Single<QuotationResponse> getById(@PathVariable ("id") Long id)
 	{
-		return quotationService.getById(id);
-		
+		return quotationService.getById(id);		
 	}
+	
 	@GetMapping("/status/{status}")
 	public Observable<QuotationResponse> findStatus(@PathVariable ("status") String status)
 	{

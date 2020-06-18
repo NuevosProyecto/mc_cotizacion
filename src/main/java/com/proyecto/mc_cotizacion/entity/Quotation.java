@@ -33,7 +33,7 @@ public class Quotation {
     private Date dateQuotation;
 
     @Transient
-    private String totalAmount;
+    private Float totalAmount;
 
     @ApiModelProperty(value = "status")
     @Column(name = "status")

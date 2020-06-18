@@ -39,6 +39,11 @@ public class QuotationServiceImplement implements QuotationService {
 		return quotationDao.findStatus(status);
 	}
 
+	@Override
+	public Observable<QuotationResponse> findAll() {
+		return quotationDao.findAll();
+	}
+
 	
 	
 }
