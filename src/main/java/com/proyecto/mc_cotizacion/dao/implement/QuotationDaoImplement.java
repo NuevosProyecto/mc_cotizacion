@@ -1,17 +1,13 @@
 package com.proyecto.mc_cotizacion.dao.implement;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.proyecto.mc_cotizacion.controller.QuotationItemController;
-import com.proyecto.mc_cotizacion.service.implement.QuotationServiceImplement;
-import io.reactivex.schedulers.Schedulers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 
 import com.proyecto.mc_cotizacion.dao.QuotationDao;
 import com.proyecto.mc_cotizacion.dto.request.QuotationItemRequest;
@@ -27,23 +23,26 @@ import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @AllArgsConstructor
-@Controller
+@Repository
+@Slf4j
 public class QuotationDaoImplement implements QuotationDao {
-
-private static final Logger logger = LogManager.getLogger(QuotationDaoImplement.class);
 
     private QuotationRepository quotationRepository;
 
     @Override
     public Completable save(QuotationRequest model) {
-        return Completable.fromAction(() -> quotationRepository.save(toQuotes(model)));
+        return Single.fromCallable(() -> toQuotes(model))
+        		.map(quotationRepository::save)
+        		.toCompletable();
     }
 
     private Quotation toQuotes(QuotationRequest model) {
-		logger.info("seteo de datos de Quotation del metodo save");
+		log.info("seteo de datos de Quotation del metodo save");
         Quotation quotation = new Quotation();
         quotation.setNumberQuotation(model.getNumberQuotation());
         quotation.setClient(model.getClient());
@@ -55,37 +54,38 @@ private static final Logger logger = LogManager.getLogger(QuotationDaoImplement.
     }
     
     private List<QuotationItem> getListItem(List<QuotationItemRequest> items) {
-		logger.info("seteo de datos de QuotationItems ");
-        List<QuotationItem> listItem = new ArrayList<>();
-        for (QuotationItemRequest item : items) {
+		log.info("seteo de datos de QuotationItems ");
+		return items.stream()
+		    .map(item -> {
         	 QuotationItem quotationItem = new QuotationItem();
         	 quotationItem.setId(item.getId());
         	 quotationItem.setIdDetail(item.getIdDetail());
         	 quotationItem.setDescription(item.getDescription());
         	 quotationItem.setUnitAmount(item.getUnitAmount());
         	 quotationItem.setQuantity(item.getQuantity());
-            listItem.add(quotationItem);
-        }
-
-        return listItem;
+            return quotationItem;
+        }).collect(Collectors.toList());
     }
     
     @Override
     public Completable update(QuotationRequest model) {
-		logger.info("actualizando y guardando los campos");
+		log.info("actualizando y guardando los campos");
         return maybeAt(model.getId()).flatMapCompletable(quotation -> {
             return save(model);
         });
     }
 
     private Maybe<Quotation> maybeAt(Long idQuote) {
-		logger.info("buscando por id y obteniendo los campos");
-        return Maybe.just(quotationRepository.findById(idQuote).orElse(new Quotation())).switchIfEmpty(Maybe.empty());
+		log.info("buscando por id y obteniendo los campos");
+        return Maybe.just(
+        		quotationRepository.findById(idQuote)
+        		.orElseThrow(IllegalArgumentException::new))
+        	.switchIfEmpty(Maybe.empty());
     }
 
     @Override
     public Single<QuotationResponse> getById(Long id) {
-		logger.info("seteo de datos por Id");
+		log.info("seteo de datos por Id");
         return maybeAt(id).map(quotation -> {
             QuotationResponse quotationResponse = new QuotationResponse();
             quotationResponse.setId(quotation.getId());
@@ -102,7 +102,7 @@ private static final Logger logger = LogManager.getLogger(QuotationDaoImplement.
 
 	@Override
 	public Observable<QuotationResponse> findAll() {
-		logger.info("seteo de todos los datos registrados");
+		log.info("seteo de todos los datos registrados");
 		return Observable.fromIterable(quotationRepository.findAll())
 				.map(quotation->{
 					QuotationResponse quotationResponse=new QuotationResponse();
@@ -136,7 +136,7 @@ private static final Logger logger = LogManager.getLogger(QuotationDaoImplement.
 	
 	@Override
     public Observable<QuotationResponse> findStatus(QuotationStatus status) {
-		logger.info("seteo de datos por Status");
+		log.info("seteo de datos por Status");
 		return     Observable.fromIterable(quotationRepository.findAll())
 					.filter(x -> x.getStatus().equals(status))
 					.map(quotation -> {
@@ -156,7 +156,7 @@ private static final Logger logger = LogManager.getLogger(QuotationDaoImplement.
 	}
     
     private List<QuotationItemResponse> getListItem2(List<QuotationItem> items){
-		logger.info("seteo de  los datos de QuotationItem iguales al Id de quotations");
+		log.info("seteo de  los datos de QuotationItem iguales al Id de quotations");
 		List<QuotationItemResponse> listItem=new ArrayList<>();
 		for(QuotationItem item: items) {
 			QuotationItemResponse quotationItem=QuotationItemResponse.builder().id(item.getId())
