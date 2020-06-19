@@ -1,8 +1,5 @@
 package com.proyecto.mc_cotizacion.service.implement;
 
-import com.proyecto.mc_cotizacion.controller.QuotationItemController;
-import org.apache.logging.log4j.LogManager;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

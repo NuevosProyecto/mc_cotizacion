@@ -1,6 +1,5 @@
 package com.proyecto.mc_cotizacion.dto.response;
 
-import com.proyecto.mc_cotizacion.entity.QuotationItem;
 import com.proyecto.mc_cotizacion.entity.QuotationStatus;
 import lombok.*;
 

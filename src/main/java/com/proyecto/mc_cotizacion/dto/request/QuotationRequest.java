@@ -1,6 +1,5 @@
 package com.proyecto.mc_cotizacion.dto.request;
 
-import com.proyecto.mc_cotizacion.entity.QuotationItem;
 import com.proyecto.mc_cotizacion.entity.QuotationStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

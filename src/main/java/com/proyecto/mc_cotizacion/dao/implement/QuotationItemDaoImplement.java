@@ -1,17 +1,11 @@
 package com.proyecto.mc_cotizacion.dao.implement;
 
-import com.proyecto.mc_cotizacion.service.implement.QuotationServiceImplement;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 
 import com.proyecto.mc_cotizacion.dao.QuotationItemDao;
 import com.proyecto.mc_cotizacion.dto.request.QuotationItemRequest;
-import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
 import com.proyecto.mc_cotizacion.dto.response.QuotationItemResponse;
-import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
-import com.proyecto.mc_cotizacion.entity.Quotation;
 import com.proyecto.mc_cotizacion.entity.QuotationItem;
 import com.proyecto.mc_cotizacion.repository.QuotationItemRepository;
 

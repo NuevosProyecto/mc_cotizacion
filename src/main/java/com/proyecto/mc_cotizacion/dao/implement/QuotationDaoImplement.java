@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 
 import com.proyecto.mc_cotizacion.dao.QuotationDao;
