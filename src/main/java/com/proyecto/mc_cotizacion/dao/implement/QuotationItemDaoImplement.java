@@ -1,6 +1,7 @@
 package com.proyecto.mc_cotizacion.dao.implement;
 
 import com.proyecto.mc_cotizacion.service.implement.QuotationServiceImplement;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -23,9 +24,8 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Controller
+@Slf4j
 public class QuotationItemDaoImplement implements QuotationItemDao {
-
-    private static final Logger logger = LogManager.getLogger(QuotationItemDaoImplement.class);
 
     private QuotationItemRepository quotationItemRepository;
 
@@ -35,7 +35,7 @@ public class QuotationItemDaoImplement implements QuotationItemDao {
     }
 
     private QuotationItem toQuotes(QuotationItemRequest model) {
-        logger.info("seteo de datos del metodo save");
+        log.info("seteo de datos del metodo save");
         QuotationItem quotationItem = new QuotationItem();
         quotationItem.setId(model.getId());
         quotationItem.setIdDetail(model.getIdDetail());
@@ -47,14 +47,14 @@ public class QuotationItemDaoImplement implements QuotationItemDao {
 
     @Override
     public Completable update(QuotationItemRequest model) {
-		logger.info("actualizando y guardando los campos");
+		log.info("actualizando y guardando los campos");
         return maybeAt(model.getId()).flatMapCompletable(quotationItem -> {
             return save(model);
         });
     }
 
     private Maybe<QuotationItem> maybeAt(Long idItem) {
-		logger.info("buscando por id y obteniendo los campos");
+		log.info("buscando por id y obteniendo los campos");
         return Maybe.just(quotationItemRepository.findById(idItem)
                 .orElse(new QuotationItem()))
                 .switchIfEmpty(Maybe.empty());
@@ -62,7 +62,7 @@ public class QuotationItemDaoImplement implements QuotationItemDao {
 
     @Override
     public Single<QuotationItemResponse> getById(Long id) {
-        logger.info("seteo de datos por Id");
+        log.info("seteo de datos por Id");
         return maybeAt(id).map(quotationItem -> {
             QuotationItemResponse quotationItemResponse = new QuotationItemResponse();
             quotationItemResponse.setId(quotationItem.getId());
@@ -77,7 +77,7 @@ public class QuotationItemDaoImplement implements QuotationItemDao {
 
     @Override
     public Observable<QuotationItemResponse> findAll() {
-		logger.info("seteo de todos los datos registrados");
+		log.info("seteo de todos los datos registrados");
         return Observable.fromIterable(quotationItemRepository.findAll())
                 .map(quotationItem -> {
                     QuotationItemResponse quotationItemResponse = new QuotationItemResponse();
