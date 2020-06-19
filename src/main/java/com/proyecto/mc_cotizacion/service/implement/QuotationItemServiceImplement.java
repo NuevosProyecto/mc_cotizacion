@@ -1,5 +1,8 @@
 package com.proyecto.mc_cotizacion.service.implement;
 
+import com.proyecto.mc_cotizacion.controller.QuotationItemController;
+import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,25 +24,21 @@ public class QuotationItemServiceImplement implements QuotationItemService{
 	
 	@Override
 	public Completable save(QuotationItemRequest model) {
-		// TODO Auto-generated method stub
 		return quotationItemDao.save(model);
 	}
 
 	@Override
 	public Completable update(QuotationItemRequest model) {
-		// TODO Auto-generated method stub
 		return quotationItemDao.update(model);
 	}
 
 	@Override
 	public Single<QuotationItemResponse> getById(Long id) {
-		// TODO Auto-generated method stub
 		return quotationItemDao.getById(id);
 	}
 
 	@Override
 	public Observable<QuotationItemResponse> findAll() {
-		// TODO Auto-generated method stub
 		return quotationItemDao.findAll();
 	}
 

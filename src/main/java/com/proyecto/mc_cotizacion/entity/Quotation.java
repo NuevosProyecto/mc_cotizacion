@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class Quotation {
 
     @ApiModelProperty(value = "client")
     @Column(name = "client")
+    @NotBlank(message = "no ingresado")
     private String client;
 
     @ApiModelProperty(value = "date_quotation")

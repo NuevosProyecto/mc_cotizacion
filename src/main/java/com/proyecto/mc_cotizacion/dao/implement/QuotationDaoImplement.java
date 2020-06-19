@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.proyecto.mc_cotizacion.controller.QuotationItemController;
+import com.proyecto.mc_cotizacion.service.implement.QuotationServiceImplement;
 import io.reactivex.schedulers.Schedulers;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -29,6 +33,8 @@ import lombok.AllArgsConstructor;
 @Controller
 public class QuotationDaoImplement implements QuotationDao {
 
+private static final Logger logger = LogManager.getLogger(QuotationDaoImplement.class);
+
     private QuotationRepository quotationRepository;
 
     @Override
@@ -37,11 +43,11 @@ public class QuotationDaoImplement implements QuotationDao {
     }
 
     private Quotation toQuotes(QuotationRequest model) {
+		logger.info("seteo de datos de Quotation del metodo save");
         Quotation quotation = new Quotation();
         quotation.setNumberQuotation(model.getNumberQuotation());
         quotation.setClient(model.getClient());
         quotation.setDateQuotation(model.getDateQuotation());
-        //quotation.setTotalAmount(getTotalAmount(getListItem(model.getItems())));
         quotation.setStatus(model.getStatus());
         quotation.setItems(getListItem(model.getItems()));
 
@@ -49,26 +55,15 @@ public class QuotationDaoImplement implements QuotationDao {
     }
     
     private List<QuotationItem> getListItem(List<QuotationItemRequest> items) {
-
+		logger.info("seteo de datos de QuotationItems ");
         List<QuotationItem> listItem = new ArrayList<>();
         for (QuotationItemRequest item : items) {
-        	/*
-            QuotationItem quotationItem = QuotationItem.builder()
-            		.id(item.getId())
-                    .idDetail(item.getIdDetail())
-                    .description(item.getDescription())
-                    .unitAmount(item.getUnitAmount())
-                    .quantity(item.getQuantity())
-                    //.totalDetailAmount(getTotalAmountItems(item.getUnitAmount(),item.getQuantity()))
-                    .build();
-            */
         	 QuotationItem quotationItem = new QuotationItem();
         	 quotationItem.setId(item.getId());
         	 quotationItem.setIdDetail(item.getIdDetail());
         	 quotationItem.setDescription(item.getDescription());
         	 quotationItem.setUnitAmount(item.getUnitAmount());
         	 quotationItem.setQuantity(item.getQuantity());
-             //quotationItem.setTotalDetailAmount(getTotalAmountItems(item.getUnitAmount(),item.getQuantity()));
             listItem.add(quotationItem);
         }
 
@@ -77,17 +72,20 @@ public class QuotationDaoImplement implements QuotationDao {
     
     @Override
     public Completable update(QuotationRequest model) {
+		logger.info("actualizando y guardando los campos");
         return maybeAt(model.getId()).flatMapCompletable(quotation -> {
             return save(model);
         });
     }
 
     private Maybe<Quotation> maybeAt(Long idQuote) {
+		logger.info("buscando por id y obteniendo los campos");
         return Maybe.just(quotationRepository.findById(idQuote).orElse(new Quotation())).switchIfEmpty(Maybe.empty());
     }
 
     @Override
     public Single<QuotationResponse> getById(Long id) {
+		logger.info("seteo de datos por Id");
         return maybeAt(id).map(quotation -> {
             QuotationResponse quotationResponse = new QuotationResponse();
             quotationResponse.setId(quotation.getId());
@@ -104,6 +102,7 @@ public class QuotationDaoImplement implements QuotationDao {
 
 	@Override
 	public Observable<QuotationResponse> findAll() {
+		logger.info("seteo de todos los datos registrados");
 		return Observable.fromIterable(quotationRepository.findAll())
 				.map(quotation->{
 					QuotationResponse quotationResponse=new QuotationResponse();
@@ -120,7 +119,6 @@ public class QuotationDaoImplement implements QuotationDao {
 	}
 
 	private List<QuotationItemResponse> getListItemResponse(List<QuotationItem> items) {
-
         List<QuotationItemResponse> listItem = new ArrayList<>();
         for (QuotationItem item : items) {
         	 QuotationItemResponse quotationItem = new QuotationItemResponse();
@@ -138,6 +136,7 @@ public class QuotationDaoImplement implements QuotationDao {
 	
 	@Override
     public Observable<QuotationResponse> findStatus(QuotationStatus status) {
+		logger.info("seteo de datos por Status");
 		return     Observable.fromIterable(quotationRepository.findAll())
 					.filter(x -> x.getStatus().equals(status))
 					.map(quotation -> {
@@ -147,7 +146,8 @@ public class QuotationDaoImplement implements QuotationDao {
 								.dateQuotation(quotation.getDateQuotation())
 								.numberQuotation(quotation.getNumberQuotation())
 								.items(getListItem2(quotation.getItems()))
-								.totalAmount(getTotalAmount(getListItem2(quotation.getItems())));
+								.totalAmount(getTotalAmount(getListItem2(quotation.getItems())))
+								.status(quotation.getStatus());
 						
 						QuotationResponse cardB = builder.build();
                         return cardB;
@@ -156,7 +156,7 @@ public class QuotationDaoImplement implements QuotationDao {
 	}
     
     private List<QuotationItemResponse> getListItem2(List<QuotationItem> items){
-		
+		logger.info("seteo de  los datos de QuotationItem iguales al Id de quotations");
 		List<QuotationItemResponse> listItem=new ArrayList<>();
 		for(QuotationItem item: items) {
 			QuotationItemResponse quotationItem=QuotationItemResponse.builder().id(item.getId())
