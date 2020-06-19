@@ -12,32 +12,26 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "quotations")
-@ApiModel("Model Quotations")
 public class Quotation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "id")
-    @ApiModelProperty(value = "id")
     @Column(name = "Id")
     private Long id;
 
-    @ApiModelProperty(value = "number_quotation")
     @Column(name = "number_quotation")
     private String numberQuotation;
 
-    @ApiModelProperty(value = "client")
     @Column(name = "client")
     @NotBlank(message = "no ingresado")
     private String client;
 
-    @ApiModelProperty(value = "date_quotation")
     @Column(name = "date_quotation")
     private Date dateQuotation;
 
     @Transient
     private Float totalAmount;
 
-    @ApiModelProperty(value = "status")
     @Column(name = "status")
     private QuotationStatus status;
 

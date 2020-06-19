@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "items_quotation")
-@ApiModel("Model QuotationItem")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,19 +31,15 @@ public class QuotationItem {
 	
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "id_detail")
-    @ApiModelProperty(value = "id_detail")
     @Column(name = "id_detail")
     private Long idDetail;
 
-    @ApiModelProperty(value = "description")
     @Column(name = "description")
     private  String description;
 
-    @ApiModelProperty(value = "unit_amount")
     @Column(name = "unit_amount")
     private Float unitAmount;
 
-    @ApiModelProperty(value = "quantity")
     @Column(name = "quantity")
     private Integer quantity;
 
