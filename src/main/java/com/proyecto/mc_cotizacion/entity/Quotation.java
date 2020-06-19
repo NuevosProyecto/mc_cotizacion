@@ -27,13 +27,18 @@ public class Quotation {
     @Column(name = "date_quotation")
     private Date dateQuotation;
 
-    @Transient
-    private Float totalAmount;
-
     @Column(name = "status")
     private QuotationStatus status;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name= "id")    
     private List<QuotationItem> items;
+    
+    public Float getTotalAmount() {
+    	Float total=0f;
+    	for (QuotationItem item : items) {         
+    		total+=item.getTotalAmountItems();                     
+        }
+    	return total;
+    }
 }

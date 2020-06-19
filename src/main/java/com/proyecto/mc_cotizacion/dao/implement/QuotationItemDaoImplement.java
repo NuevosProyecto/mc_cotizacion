@@ -64,7 +64,7 @@ public class QuotationItemDaoImplement implements QuotationItemDao {
             quotationItemResponse.setDescription(quotationItem.getDescription());
             quotationItemResponse.setUnitAmount(quotationItem.getUnitAmount());
             quotationItemResponse.setQuantity(quotationItem.getQuantity());
-            quotationItemResponse.setTotalDetailAmount(getTotalAmountItems(quotationItem.getUnitAmount(), quotationItem.getQuantity()));
+            quotationItemResponse.setTotalDetailAmount(quotationItem.getTotalAmountItems());
             return quotationItemResponse;
         }).toSingle();
     }
@@ -80,16 +80,9 @@ public class QuotationItemDaoImplement implements QuotationItemDao {
                     quotationItemResponse.setDescription(quotationItem.getDescription());
                     quotationItemResponse.setUnitAmount(quotationItem.getUnitAmount());
                     quotationItemResponse.setQuantity(quotationItem.getQuantity());
-                    quotationItemResponse.setTotalDetailAmount(getTotalAmountItems(quotationItem.getUnitAmount(), quotationItem.getQuantity()));
+                    quotationItemResponse.setTotalDetailAmount(quotationItem.getTotalAmountItems());
                     return quotationItemResponse;
                 })
                 .subscribeOn(Schedulers.io());
     }
-
-    private Float getTotalAmountItems(Float unitAmount, Integer quantity) {
-        Float total = 0f;
-        total = unitAmount * quantity;
-        return total;
-    }
-
 }

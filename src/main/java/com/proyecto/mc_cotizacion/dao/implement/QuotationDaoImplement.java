@@ -89,7 +89,7 @@ public class QuotationDaoImplement implements QuotationDao {
             quotationResponse.setNumberQuotation(quotation.getNumberQuotation());
             quotationResponse.setClient(quotation.getClient());
             quotationResponse.setDateQuotation(quotation.getDateQuotation());
-            quotationResponse.setTotalAmount(getTotalAmount(getListItemResponse(quotation.getItems())));
+            quotationResponse.setTotalAmount(quotation.getTotalAmount());
             quotationResponse.setStatus(quotation.getStatus());
             quotationResponse.setItems(getListItemResponse(quotation.getItems()));
 
@@ -107,7 +107,7 @@ public class QuotationDaoImplement implements QuotationDao {
 					quotationResponse.setNumberQuotation(quotation.getNumberQuotation());
 					quotationResponse.setClient(quotation.getClient());
 					quotationResponse.setDateQuotation(quotation.getDateQuotation());
-					quotationResponse.setTotalAmount(getTotalAmount(getListItemResponse(quotation.getItems())));
+					quotationResponse.setTotalAmount(quotation.getTotalAmount());
 					quotationResponse.setStatus(quotation.getStatus());
 					quotationResponse.setItems(getListItemResponse(quotation.getItems()));
 					return quotationResponse;
@@ -124,7 +124,7 @@ public class QuotationDaoImplement implements QuotationDao {
         	 quotationItem.setDescription(item.getDescription());
         	 quotationItem.setUnitAmount(item.getUnitAmount());
         	 quotationItem.setQuantity(item.getQuantity());
-             quotationItem.setTotalDetailAmount(getTotalAmountItems(item.getUnitAmount(),item.getQuantity()));
+             quotationItem.setTotalDetailAmount(item.getTotalAmountItems());
             listItem.add(quotationItem);
         }
 
@@ -143,7 +143,7 @@ public class QuotationDaoImplement implements QuotationDao {
 								.dateQuotation(quotation.getDateQuotation())
 								.numberQuotation(quotation.getNumberQuotation())
 								.items(getListItem2(quotation.getItems()))
-								.totalAmount(getTotalAmount(getListItem2(quotation.getItems())))
+								.totalAmount(quotation.getTotalAmount())
 								.status(quotation.getStatus());
 						
 						QuotationResponse cardB = builder.build();
@@ -160,28 +160,12 @@ public class QuotationDaoImplement implements QuotationDao {
 					.idDetail(item.getIdDetail())
 					.description(item.getDescription())
 					.unitAmount(item.getUnitAmount())
-					.totalDetailAmount(getTotalAmountItems(item.getUnitAmount(),item.getQuantity()))
+					.totalDetailAmount(item.getTotalAmountItems())
 					.quantity(item.getQuantity())
 					.build();
 			listItem.add(quotationItem);
 		}
 		
 		return listItem;
-	}
-	
-    private Float getTotalAmountItems(Float unitAmount,Integer quantity) {
-    	Float total=0f;
-    	total=unitAmount*quantity;
-    	return total;
-    }
-    
-	private Float getTotalAmount(List<QuotationItemResponse> items) {
-    	Float total=0f;
-    	for (QuotationItemResponse item : items) {         
-    		total+=item.getTotalDetailAmount();                     
-        }
-    	return total;
-    }
-    
-
+	}   
 }

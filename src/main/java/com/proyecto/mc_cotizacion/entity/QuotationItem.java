@@ -40,7 +40,9 @@ public class QuotationItem {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Transient
-    private Float totalDetailAmount;
-
+    public Float getTotalAmountItems() {
+    	Float total=0f;
+    	total=unitAmount*quantity;
+    	return total;
+    }
 }
