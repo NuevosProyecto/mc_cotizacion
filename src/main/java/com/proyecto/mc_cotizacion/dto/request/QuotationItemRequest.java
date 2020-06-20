@@ -1,5 +1,7 @@
 package com.proyecto.mc_cotizacion.dto.request;
 
+import java.math.BigDecimal;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -22,10 +24,9 @@ public class QuotationItemRequest {
     private  String description;
 
     @ApiModelProperty(value = "unit_amount")
-    private Float unitAmount;
+    private BigDecimal unitAmount;
 
     @ApiModelProperty(value = "quantity")
     private Integer quantity;
-    //private Float totalDetailAmount;
 
 }

@@ -1,5 +1,7 @@
 package com.proyecto.mc_cotizacion.dto.response;
 
+import java.math.BigDecimal;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +15,7 @@ public class QuotationItemResponse {
     private Long id;
     private Long idDetail;
     private String description;
-    private Float unitAmount;
+    private BigDecimal unitAmount;
     private Integer quantity;
-    private Float totalDetailAmount;
+    private BigDecimal totalDetailAmount;
 }

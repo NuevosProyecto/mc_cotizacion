@@ -1,6 +1,8 @@
 package com.proyecto.mc_cotizacion.entity;
 
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,14 +37,14 @@ public class QuotationItem {
     private  String description;
 
     @Column(name = "unit_amount")
-    private Float unitAmount;
+    private BigDecimal unitAmount;
 
     @Column(name = "quantity")
     private Integer quantity;
 
-    public Float getTotalAmountItems() {
-    	Float total=0f;
-    	total=unitAmount*quantity;
+    public BigDecimal getTotalAmountItems() {
+    	BigDecimal bigQuantity=new BigDecimal(quantity);
+    	BigDecimal total=unitAmount.multiply(bigQuantity);
     	return total;
     }
 }

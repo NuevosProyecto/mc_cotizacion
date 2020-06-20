@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -34,10 +36,10 @@ public class Quotation {
     @JoinColumn(name= "id")    
     private List<QuotationItem> items;
     
-    public Float getTotalAmount() {
-    	Float total=0f;
+    public BigDecimal getTotalAmount() {
+    	BigDecimal total = new BigDecimal(0.0).setScale(2);
     	for (QuotationItem item : items) {         
-    		total+=item.getTotalAmountItems();                     
+    		total=total.add(item.getTotalAmountItems().setScale(2));                     
         }
     	return total;
     }
