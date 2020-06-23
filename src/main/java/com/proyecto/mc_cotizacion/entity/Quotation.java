@@ -39,7 +39,7 @@ public class Quotation {
     public BigDecimal getTotalAmount() {
     	BigDecimal total = new BigDecimal(0.0).setScale(2);
     	for (QuotationItem item : items) {         
-    		total=total.add(item.getTotalAmountItems().setScale(2));                     
+    		total=total.add(item.getTotalAmount().setScale(2));
         }
     	return total;
     }

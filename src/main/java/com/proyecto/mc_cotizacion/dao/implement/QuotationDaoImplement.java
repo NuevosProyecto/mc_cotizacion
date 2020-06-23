@@ -125,7 +125,7 @@ public class QuotationDaoImplement implements QuotationDao {
         	 quotationItem.setDescription(item.getDescription());
         	 quotationItem.setUnitAmount(item.getUnitAmount());
         	 quotationItem.setQuantity(item.getQuantity());
-             quotationItem.setTotalDetailAmount(item.getTotalAmountItems());
+             quotationItem.setTotalDetailAmount(item.getTotalAmount());
             listItem.add(quotationItem);
         }
 
@@ -161,7 +161,7 @@ public class QuotationDaoImplement implements QuotationDao {
 					.idDetail(item.getIdDetail())
 					.description(item.getDescription())
 					.unitAmount(item.getUnitAmount())
-					.totalDetailAmount(item.getTotalAmountItems())
+					.totalDetailAmount(item.getTotalAmount())
 					.quantity(item.getQuantity())
 					.build();
 			listItem.add(quotationItem);

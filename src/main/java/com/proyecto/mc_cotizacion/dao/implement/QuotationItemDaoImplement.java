@@ -64,7 +64,7 @@ public class QuotationItemDaoImplement implements QuotationItemDao {
             quotationItemResponse.setDescription(quotationItem.getDescription());
             quotationItemResponse.setUnitAmount(quotationItem.getUnitAmount());
             quotationItemResponse.setQuantity(quotationItem.getQuantity());
-            quotationItemResponse.setTotalDetailAmount(quotationItem.getTotalAmountItems());
+            quotationItemResponse.setTotalDetailAmount(quotationItem.getTotalAmount());
             return quotationItemResponse;
         }).toSingle();
     }
@@ -80,7 +80,7 @@ public class QuotationItemDaoImplement implements QuotationItemDao {
                     quotationItemResponse.setDescription(quotationItem.getDescription());
                     quotationItemResponse.setUnitAmount(quotationItem.getUnitAmount());
                     quotationItemResponse.setQuantity(quotationItem.getQuantity());
-                    quotationItemResponse.setTotalDetailAmount(quotationItem.getTotalAmountItems());
+                    quotationItemResponse.setTotalDetailAmount(quotationItem.getTotalAmount());
                     return quotationItemResponse;
                 })
                 .subscribeOn(Schedulers.io());

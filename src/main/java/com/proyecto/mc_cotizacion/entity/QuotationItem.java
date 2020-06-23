@@ -42,9 +42,7 @@ public class QuotationItem {
     @Column(name = "quantity")
     private Integer quantity;
 
-    public BigDecimal getTotalAmountItems() {
-    	BigDecimal bigQuantity=new BigDecimal(quantity);
-    	BigDecimal total=unitAmount.multiply(bigQuantity);
-    	return total;
+    public BigDecimal getTotalAmount() {
+    	return unitAmount.multiply(new BigDecimal(quantity));
     }
 }
