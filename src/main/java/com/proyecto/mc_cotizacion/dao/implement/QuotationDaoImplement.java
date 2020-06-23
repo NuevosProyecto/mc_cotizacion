@@ -41,6 +41,7 @@ public class QuotationDaoImplement implements QuotationDao {
     private Quotation toQuotes(QuotationRequest model) {
 		log.info("seteo de datos de Quotation del metodo save");
         Quotation quotation = new Quotation();
+        quotation.setId(model.getId());
         quotation.setNumberQuotation(model.getNumberQuotation());
         quotation.setClient(model.getClient());
         quotation.setDateQuotation(model.getDateQuotation());
