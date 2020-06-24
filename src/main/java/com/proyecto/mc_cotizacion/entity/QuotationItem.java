@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "items_quotation")
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuotationItem {
