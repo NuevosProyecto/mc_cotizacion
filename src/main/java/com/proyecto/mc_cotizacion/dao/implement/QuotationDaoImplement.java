@@ -1,6 +1,5 @@
 package com.proyecto.mc_cotizacion.dao.implement;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,15 +53,19 @@ public class QuotationDaoImplement implements QuotationDao {
     private List<QuotationItem> getListItem(List<QuotationItemRequest> items) {
 		log.info("seteo de datos de QuotationItems ");
 		return items.stream()
-		    .map(item -> {
-        	 QuotationItem quotationItem = new QuotationItem();
-        	 quotationItem.setId(item.getId());
-        	 quotationItem.setIdDetail(item.getIdDetail());
-        	 quotationItem.setDescription(item.getDescription());
-        	 quotationItem.setUnitAmount(item.getUnitAmount());
-        	 quotationItem.setQuantity(item.getQuantity());
-            return quotationItem;
+		    .map(item -> { 
+            return getQuotationItem(item);
         }).collect(Collectors.toList());
+    }
+    
+    public QuotationItem getQuotationItem(QuotationItemRequest item) {
+    	QuotationItem quotationItem = new QuotationItem();
+    	quotationItem.setId(item.getId());
+	   	quotationItem.setIdDetail(item.getIdDetail());
+	   	quotationItem.setDescription(item.getDescription());
+	   	quotationItem.setUnitAmount(item.getUnitAmount());
+	   	quotationItem.setQuantity(item.getQuantity());
+    	return quotationItem;
     }
     
     @Override
@@ -85,16 +88,7 @@ public class QuotationDaoImplement implements QuotationDao {
     public Single<QuotationResponse> getById(Long id) {
 		log.info("seteo de datos por Id");
         return maybeAt(id).map(quotation -> {
-            QuotationResponse quotationResponse = new QuotationResponse();
-            quotationResponse.setId(quotation.getId());
-            quotationResponse.setNumberQuotation(quotation.getNumberQuotation());
-            quotationResponse.setClient(quotation.getClient());
-            quotationResponse.setDateQuotation(quotation.getDateQuotation());
-            quotationResponse.setTotalAmount(quotation.getTotalAmount());
-            quotationResponse.setStatus(quotation.getStatus());
-            quotationResponse.setItems(getListItemResponse(quotation.getItems()));
-
-            return quotationResponse;
+            return getQuotationResponse(quotation);
         }).toSingle();
     }
 
@@ -103,34 +97,10 @@ public class QuotationDaoImplement implements QuotationDao {
 		log.info("seteo de todos los datos registrados");
 		return Observable.fromIterable(quotationRepository.findAll())
 				.map(quotation->{
-					QuotationResponse quotationResponse=new QuotationResponse();
-					quotationResponse.setId(quotation.getId());
-					quotationResponse.setNumberQuotation(quotation.getNumberQuotation());
-					quotationResponse.setClient(quotation.getClient());
-					quotationResponse.setDateQuotation(quotation.getDateQuotation());
-					quotationResponse.setTotalAmount(quotation.getTotalAmount());
-					quotationResponse.setStatus(quotation.getStatus());
-					quotationResponse.setItems(getListItemResponse(quotation.getItems()));
-					return quotationResponse;
+					return getQuotationResponse(quotation);
 				})
 				.subscribeOn(Schedulers.io());
 	}
-
-	private List<QuotationItemResponse> getListItemResponse(List<QuotationItem> items) {
-        List<QuotationItemResponse> listItem = new ArrayList<>();
-        for (QuotationItem item : items) {
-        	 QuotationItemResponse quotationItem = new QuotationItemResponse();
-        	 quotationItem.setId(item.getId());
-        	 quotationItem.setIdDetail(item.getIdDetail());
-        	 quotationItem.setDescription(item.getDescription());
-        	 quotationItem.setUnitAmount(item.getUnitAmount());
-        	 quotationItem.setQuantity(item.getQuantity());
-             quotationItem.setTotalDetailAmount(item.getTotalAmount());
-            listItem.add(quotationItem);
-        }
-
-        return listItem;
-    }
 	
 	@Override
     public Observable<QuotationResponse> findStatus(QuotationStatus status) {
@@ -138,35 +108,33 @@ public class QuotationDaoImplement implements QuotationDao {
 		return     Observable.fromIterable(quotationRepository.findAll())
 					.filter(x -> x.getStatus().equals(status))
 					.map(quotation -> {
-						QuotationResponse.QuotationResponseBuilder builder = QuotationResponse.builder()
-								.id(quotation.getId())
-								.client(quotation.getClient())
-								.dateQuotation(quotation.getDateQuotation())
-								.numberQuotation(quotation.getNumberQuotation())
-								.items(getListItem2(quotation.getItems()))
-								.totalAmount(quotation.getTotalAmount())
-								.status(quotation.getStatus());
-						
-						QuotationResponse cardB = builder.build();
-                        return cardB;
-						
+						return getQuotationResponse(quotation);
 					}).subscribeOn(Schedulers.io());
 	}
-    
-    private List<QuotationItemResponse> getListItem2(List<QuotationItem> items){
-		log.info("seteo de  los datos de QuotationItem iguales al Id de quotations");
-		List<QuotationItemResponse> listItem=new ArrayList<>();
-		for(QuotationItem item: items) {
-			QuotationItemResponse quotationItem=QuotationItemResponse.builder().id(item.getId())
-					.idDetail(item.getIdDetail())
-					.description(item.getDescription())
-					.unitAmount(item.getUnitAmount())
-					.totalDetailAmount(item.getTotalAmount())
-					.quantity(item.getQuantity())
-					.build();
-			listItem.add(quotationItem);
-		}
 		
-		return listItem;
-	}   
+	public QuotationResponse getQuotationResponse(Quotation quotation) {
+		QuotationResponse quotationResponse=new QuotationResponse();
+		quotationResponse.setId(quotation.getId());
+		quotationResponse.setNumberQuotation(quotation.getNumberQuotation());
+		quotationResponse.setClient(quotation.getClient());
+		quotationResponse.setDateQuotation(quotation.getDateQuotation());
+		quotationResponse.setTotalAmount(quotation.getTotalAmount());
+		quotationResponse.setStatus(quotation.getStatus());
+		quotationResponse.setItems(getListItemResponse(quotation.getItems()));
+		
+		return quotationResponse;
+	}
+    
+	private List<QuotationItemResponse> getListItemResponse(List<QuotationItem> items) {
+		return items.stream().map(item->{
+        	QuotationItemResponse quotationItem = new QuotationItemResponse();
+       	 	quotationItem.setId(item.getId());
+       	 	quotationItem.setIdDetail(item.getIdDetail());
+       	 	quotationItem.setDescription(item.getDescription());
+       	 	quotationItem.setUnitAmount(item.getUnitAmount());
+       	 	quotationItem.setQuantity(item.getQuantity());
+            quotationItem.setTotalDetailAmount(item.getTotalAmount());
+            return quotationItem;
+        }).collect(Collectors.toList());        
+    }
 }
