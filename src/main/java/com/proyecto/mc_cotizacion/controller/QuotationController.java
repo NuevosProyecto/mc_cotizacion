@@ -22,6 +22,8 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping (Constants.MAIN_PATH1)
 @Api(value = "Microservicio Quotation", description = "Esta API se encarga de la gestion de las cotizaciones")
@@ -33,7 +35,7 @@ public class QuotationController {
 	
 	@PostMapping
 	@ApiOperation(value = "Registrar Cotizacion", notes = "Metodo Post para registrar  Cotizacion" )
-	public Completable save( @RequestBody QuotationRequest model) {
+	public Completable save( @Valid @RequestBody QuotationRequest model) {
 		log.info("Envio de parametros");
 		return  quotationService.save(model);
 	}
@@ -61,7 +63,7 @@ public class QuotationController {
 
 	@GetMapping(Constants.STATUS)
 	@ApiOperation(value = "Traer Cotizaciones por estatus", notes = "Metodo Get para traer una lista de Cotizaciones por estatus" )
-	public Observable<QuotationResponse> findStatus(@PathVariable ("status") QuotationStatus status) {
+	public Observable<QuotationResponse> findStatus(@Valid @PathVariable ("status") QuotationStatus status) {
 		log.info("Obtencion de datos por status");
 		return quotationService.findStatus(status);
 	}	

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
 
@@ -19,9 +20,11 @@ public class QuotationRequest {
     private Long id;
 
     @ApiModelProperty(value = "number_quotation")
+    @NotBlank(message = "insert number quotation")
     private String numberQuotation;
 
     @ApiModelProperty(value = "client")
+    @NotBlank(message = "insert client")
     private String client;
 
     @ApiModelProperty(value = "date_quotation")
