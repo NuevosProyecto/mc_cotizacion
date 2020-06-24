@@ -23,12 +23,10 @@ public class Swagger {
 
     private ApiInfo metaInfo() {
 
-        ApiInfo apiInfo = new ApiInfo("MICROSERVICIO COTIZACION", "Microservicio desarrollado para las Cotizaciones ",
+       return new ApiInfo("MICROSERVICIO COTIZACION", "Microservicio desarrollado para las Cotizaciones ",
                 "1.0", "Terms of Service", "", "Apache License Version 2.0", "https://www.apache.org"
 
         );
-
-        return apiInfo;
     }
 }
 
