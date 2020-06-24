@@ -25,7 +25,7 @@ import io.reactivex.Single;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping (Constants.MAIN_PATH1)
+@RequestMapping (Constants.MAIN_PATH)
 @Api(tags = "Quotation", description = "Esta API se encarga de la gestion de las cotizaciones")
 @Slf4j
 public class QuotationController {
