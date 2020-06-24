@@ -26,7 +26,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping (Constants.MAIN_PATH1)
-@Api(value = "Microservicio Quotation", description = "Esta API se encarga de la gestion de las cotizaciones")
+@Api(tags = "Quotation", description = "Esta API se encarga de la gestion de las cotizaciones")
 @Slf4j
 public class QuotationController {
 

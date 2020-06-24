@@ -1,6 +1,8 @@
 package com.proyecto.mc_cotizacion.controller;
 
 import com.proyecto.mc_cotizacion.util.Constants;
+
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import io.reactivex.Single;
 
 @RestController
 @RequestMapping(Constants.MAIN_PATH2)
+@Api(tags = "Quotation Item", description = "Esta API se encarga de la gestion de las cotizaciones")
 @Slf4j
 public class QuotationItemController {
 
