@@ -15,4 +15,5 @@ public interface QuotationDao {
 	Single<QuotationResponse> getById(Long id);
 	Observable<QuotationResponse> findStatus(QuotationStatus status);
 	Observable<QuotationResponse> findAll();
+	Completable updateStatus(Long id, QuotationStatus status);
 }

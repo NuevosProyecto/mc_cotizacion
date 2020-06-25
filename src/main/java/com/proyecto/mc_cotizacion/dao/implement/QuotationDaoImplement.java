@@ -16,16 +16,19 @@ import com.proyecto.mc_cotizacion.entity.QuotationStatus;
 import com.proyecto.mc_cotizacion.repository.QuotationRepository;
 
 import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @AllArgsConstructor
 @Repository
 @Slf4j
+@Data
 public class QuotationDaoImplement implements QuotationDao {
 
     private QuotationRepository quotationRepository;
@@ -115,8 +118,7 @@ public class QuotationDaoImplement implements QuotationDao {
 		quotationResponse.setDateQuotation(quotation.getDateQuotation());
 		quotationResponse.setTotalAmount(quotation.getTotalAmount());
 		quotationResponse.setStatus(quotation.getStatus());
-		quotationResponse.setItems(getListItemResponse(quotation.getItems()));
-		
+		quotationResponse.setItems(getListItemResponse(quotation.getItems()));		
 		return quotationResponse;
 	}
     
@@ -135,4 +137,41 @@ public class QuotationDaoImplement implements QuotationDao {
         quotationItem.setTotalDetailAmount(item.getTotalAmount());
 		return quotationItem;
 	}
+
+	@Override
+	public Completable updateStatus(Long id, QuotationStatus status) {	
+		return maybeAt(id).flatMapCompletable(quotable ->{			
+			quotable.setStatus(status);			
+			System.out.println(")))))))))))))))))))))"+quotable.toString());
+			return save(toQuotationRequest(quotable));		
+		});
+	}
+	
+	public QuotationRequest toQuotationRequest (Quotation quotation) {
+		QuotationRequest model = new QuotationRequest () ;
+		model.setId(quotation.getId());
+		model.setNumberQuotation(quotation.getNumberQuotation());
+		model.setClient(quotation.getClient());
+		model.setDateQuotation(quotation.getDateQuotation());
+		model.setStatus(quotation.getStatus());
+		model.setItems(getListItemRequest(quotation.getItems()));		
+		return model;
+	}
+    
+	private List<QuotationItemRequest> getListItemRequest(List<QuotationItem> items) {
+		return items.stream().map(item->getQuotationItemRequest(item))
+				.collect(Collectors.toList());        
+    }
+	private QuotationItemRequest getQuotationItemRequest(QuotationItem item) {
+		QuotationItemRequest quotationItem = new QuotationItemRequest();
+   	 	quotationItem.setId(item.getId());
+   	 	quotationItem.setIdDetail(item.getIdDetail());
+   	 	quotationItem.setDescription(item.getDescription());
+   	 	quotationItem.setUnitAmount(item.getUnitAmount());
+   	 	quotationItem.setQuantity(item.getQuantity());
+		return quotationItem;
+	}
+
+	
+	
 }

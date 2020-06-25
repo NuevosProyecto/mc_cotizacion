@@ -68,4 +68,10 @@ public class QuotationController {
 		return quotationService.findStatus(status);
 	}	
 	
+	@PutMapping(Constants.PUTSTATUS)
+	@ApiOperation(value = "Actualizar Cotizacion", notes = "Metodo Put para actualizar  Cotizacion" )
+	public Completable updateStatus(@PathVariable ("id") Long id, @RequestBody QuotationStatus status) {
+		log.info("Actualizacion de parametros");
+		return quotationService.updateStatus(id,status);
+	}
 }

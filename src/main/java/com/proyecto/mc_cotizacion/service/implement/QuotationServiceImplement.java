@@ -44,6 +44,9 @@ public class QuotationServiceImplement implements QuotationService {
 		return quotationDao.findAll();
 	}
 
-	
+	@Override
+	public Completable updateStatus(Long id, QuotationStatus status) {		
+		return 	quotationDao.updateStatus(id, status);
+	}	
 	
 }
