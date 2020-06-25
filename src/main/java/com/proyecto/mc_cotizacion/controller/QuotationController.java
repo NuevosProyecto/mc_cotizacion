@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
 import com.proyecto.mc_cotizacion.dto.request.QuotationStatusRequest;
 import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
+import com.proyecto.mc_cotizacion.dto.response.QuotationSummaryResponse;
 import com.proyecto.mc_cotizacion.entity.QuotationStatus;
 import com.proyecto.mc_cotizacion.service.QuotationService;
 
@@ -61,7 +62,7 @@ public class QuotationController {
 	@GetMapping(Constants.ID)
 	@ApiOperation(value = "Metodo a traves del cual te permite obtener los datos de una Cotizacion en especifico , a traves de la busqueda de su identificador (id)  ",
 			notes = "Es necesario el envio del Id de la cotizacion ,para obtener  sus datos" )
-	public Single<QuotationResponse> getById(@PathVariable ("id") Long id) {
+	public Single<QuotationSummaryResponse> getById(@PathVariable ("id") Long id) {
 		log.info("Obtencion de datos por id");
 		return quotationService.getById(id);		
 	}

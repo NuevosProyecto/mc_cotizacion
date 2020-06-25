@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
 import com.proyecto.mc_cotizacion.dto.request.QuotationStatusRequest;
 import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
+import com.proyecto.mc_cotizacion.dto.response.QuotationSummaryResponse;
 import com.proyecto.mc_cotizacion.entity.QuotationStatus;
 
 import io.reactivex.Completable;
@@ -16,7 +17,7 @@ public interface QuotationService {
 
 	Completable save(QuotationRequest model);
 	Completable update(QuotationRequest model);
-	Single<QuotationResponse> getById(Long id);
+	Single<QuotationSummaryResponse> getById(Long id);
 	Observable<QuotationResponse> findStatus(QuotationStatus status);
 	Observable<QuotationResponse> findAll();
 	Completable updateStatus(Long id, QuotationStatusRequest quotationStatusRequest);

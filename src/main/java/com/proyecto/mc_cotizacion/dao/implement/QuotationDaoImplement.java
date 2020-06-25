@@ -11,6 +11,7 @@ import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
 import com.proyecto.mc_cotizacion.dto.request.QuotationStatusRequest;
 import com.proyecto.mc_cotizacion.dto.response.QuotationItemResponse;
 import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
+import com.proyecto.mc_cotizacion.dto.response.QuotationSummaryResponse;
 import com.proyecto.mc_cotizacion.entity.Quotation;
 import com.proyecto.mc_cotizacion.entity.QuotationItem;
 import com.proyecto.mc_cotizacion.entity.QuotationStatus;
@@ -88,11 +89,22 @@ public class QuotationDaoImplement implements QuotationDao {
     }
 
     @Override
-    public Single<QuotationResponse> getById(Long id) {
+    public Single<QuotationSummaryResponse> getById(Long id) {
 		log.info("seteo de datos por Id");
-        return maybeAt(id).map(quotation -> getQuotationResponse(quotation))
+        return maybeAt(id).map(quotation -> getQuotationSummaryResponse(quotation))
         		.toSingle();
     }
+    
+    public QuotationSummaryResponse getQuotationSummaryResponse(Quotation quotation) {
+    	QuotationSummaryResponse quotationResponse=new QuotationSummaryResponse();
+		quotationResponse.setId(quotation.getId());
+		quotationResponse.setNumberQuotation(quotation.getNumberQuotation());
+		quotationResponse.setClient(quotation.getClient());
+		quotationResponse.setDateQuotation(quotation.getDateQuotation());
+		quotationResponse.setTotalAmount(quotation.getTotalAmount());
+		quotationResponse.setStatus(quotation.getStatus());	
+		return quotationResponse;
+	}
 
 	@Override
 	public Observable<QuotationResponse> findAll() {

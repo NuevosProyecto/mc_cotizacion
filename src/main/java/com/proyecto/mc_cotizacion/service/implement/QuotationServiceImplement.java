@@ -7,6 +7,7 @@ import com.proyecto.mc_cotizacion.dao.QuotationDao;
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
 import com.proyecto.mc_cotizacion.dto.request.QuotationStatusRequest;
 import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
+import com.proyecto.mc_cotizacion.dto.response.QuotationSummaryResponse;
 import com.proyecto.mc_cotizacion.entity.QuotationStatus;
 import com.proyecto.mc_cotizacion.service.QuotationService;
 
@@ -31,7 +32,7 @@ public class QuotationServiceImplement implements QuotationService {
 	}
 
 	@Override
-	public Single<QuotationResponse> getById(Long id) {
+	public Single<QuotationSummaryResponse> getById(Long id) {
 		return quotationDao.getById(id);
 	}
 
