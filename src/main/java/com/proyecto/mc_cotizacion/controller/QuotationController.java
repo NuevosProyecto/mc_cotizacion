@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
+import com.proyecto.mc_cotizacion.dto.request.QuotationStatusRequest;
 import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
 import com.proyecto.mc_cotizacion.entity.QuotationStatus;
 import com.proyecto.mc_cotizacion.service.QuotationService;
@@ -69,9 +70,9 @@ public class QuotationController {
 	}	
 	
 	@PutMapping(Constants.PUTSTATUS)
-	@ApiOperation(value = "Actualizar Cotizacion", notes = "Metodo Put para actualizar  Cotizacion" )
-	public Completable updateStatus(@PathVariable ("id") Long id, @RequestBody QuotationStatus status) {
-		log.info("Actualizacion de parametros");
-		return quotationService.updateStatus(id,status);
+	@ApiOperation(value = "Actualizar status de la cotizacion", notes = "Metodo Put para actualizar  el estado de la Cotizacion" )
+	public Completable updateStatus(@PathVariable ("id") Long id, @RequestBody QuotationStatusRequest quotationStatusRequest) {
+		log.info("Actualizacion status de la Cotizacion");
+		return quotationService.updateStatus(id,quotationStatusRequest);
 	}
 }

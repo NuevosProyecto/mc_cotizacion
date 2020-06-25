@@ -1,6 +1,7 @@
 package com.proyecto.mc_cotizacion.dao;
 
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
+import com.proyecto.mc_cotizacion.dto.request.QuotationStatusRequest;
 import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
 import com.proyecto.mc_cotizacion.entity.QuotationStatus;
 
@@ -15,5 +16,5 @@ public interface QuotationDao {
 	Single<QuotationResponse> getById(Long id);
 	Observable<QuotationResponse> findStatus(QuotationStatus status);
 	Observable<QuotationResponse> findAll();
-	Completable updateStatus(Long id, QuotationStatus status);
+	Completable updateStatus(Long id, QuotationStatusRequest quotationStatusRequest);
 }

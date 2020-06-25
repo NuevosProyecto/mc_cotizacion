@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.proyecto.mc_cotizacion.dao.QuotationDao;
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
+import com.proyecto.mc_cotizacion.dto.request.QuotationStatusRequest;
 import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
 import com.proyecto.mc_cotizacion.entity.QuotationStatus;
 import com.proyecto.mc_cotizacion.service.QuotationService;
@@ -45,8 +46,8 @@ public class QuotationServiceImplement implements QuotationService {
 	}
 
 	@Override
-	public Completable updateStatus(Long id, QuotationStatus status) {		
-		return 	quotationDao.updateStatus(id, status);
+	public Completable updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {		
+		return 	quotationDao.updateStatus(id, quotationStatusRequest);
 	}	
 	
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.proyecto.mc_cotizacion.dao.QuotationDao;
 import com.proyecto.mc_cotizacion.dto.request.QuotationItemRequest;
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
+import com.proyecto.mc_cotizacion.dto.request.QuotationStatusRequest;
 import com.proyecto.mc_cotizacion.dto.response.QuotationItemResponse;
 import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
 import com.proyecto.mc_cotizacion.entity.Quotation;
@@ -139,10 +140,9 @@ public class QuotationDaoImplement implements QuotationDao {
 	}
 
 	@Override
-	public Completable updateStatus(Long id, QuotationStatus status) {	
+	public Completable updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {	
 		return maybeAt(id).flatMapCompletable(quotable ->{			
-			quotable.setStatus(status);			
-			System.out.println(")))))))))))))))))))))"+quotable.toString());
+			quotable.setStatus(quotationStatusRequest.getStatus());
 			return save(toQuotationRequest(quotable));		
 		});
 	}
