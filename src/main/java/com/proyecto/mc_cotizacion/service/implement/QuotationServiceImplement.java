@@ -1,5 +1,7 @@
 package com.proyecto.mc_cotizacion.service.implement;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,5 +52,10 @@ public class QuotationServiceImplement implements QuotationService {
 	public Completable updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {		
 		return 	quotationDao.updateStatus(id, quotationStatusRequest);
 	}	
+	
+	@Override
+	public Observable<QuotationResponse> findQueryParam(Map<String, String> params) {
+		return quotationDao.findQueryParam(params);
+	}
 	
 }

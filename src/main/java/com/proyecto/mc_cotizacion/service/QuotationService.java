@@ -1,6 +1,8 @@
 package com.proyecto.mc_cotizacion.service;
 
 
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
@@ -21,4 +23,5 @@ public interface QuotationService {
 	Observable<QuotationResponse> findStatus(QuotationStatus status);
 	Observable<QuotationResponse> findAll();
 	Completable updateStatus(Long id, QuotationStatusRequest quotationStatusRequest);
+	Observable<QuotationResponse> findQueryParam(Map<String,String> params);
 }

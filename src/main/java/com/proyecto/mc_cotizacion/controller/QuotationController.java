@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
@@ -23,6 +24,8 @@ import com.proyecto.mc_cotizacion.service.QuotationService;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -80,5 +83,10 @@ public class QuotationController {
 	public Completable updateStatus(@PathVariable ("id") Long id, @RequestBody QuotationStatusRequest quotationStatusRequest) {
 		log.info("Actualizacion status de la Cotizacion");
 		return quotationService.updateStatus(id,quotationStatusRequest);
+	}
+	
+	@GetMapping("/params")
+	public Observable<QuotationResponse> findByQueryParam(@RequestParam Map<String,String> params){
+		return quotationService.findQueryParam(params);
 	}
 }

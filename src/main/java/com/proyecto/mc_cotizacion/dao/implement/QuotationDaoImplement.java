@@ -1,6 +1,7 @@
 package com.proyecto.mc_cotizacion.dao.implement;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
@@ -184,6 +185,40 @@ public class QuotationDaoImplement implements QuotationDao {
 		return quotationItem;
 	}
 
-	
-	
+	@Override
+	public Observable<QuotationResponse> findQueryParam(Map<String, String> params) {
+		log.info("Parametro: "+params);
+		Observable<QuotationResponse> observableQuotationResponse=null;
+		Long id;QuotationStatus status;
+		
+		if(!params.isEmpty()) {
+			if(params.get("id")!=null && !"".equals(params.get("id")) && params.get("status")!=null && !"".equals(params.get("status"))) {
+				id=new Long(params.get("id"));
+				status=QuotationStatus.valueOf(params.get("status"));
+				observableQuotationResponse= Observable.fromIterable(quotationRepository.findAll())
+						.filter(obj->obj.getId().equals(id))
+						.filter(obj->obj.getStatus().equals(status))
+						.map(quotation -> getQuotationResponse(quotation))
+						.subscribeOn(Schedulers.io());
+			}else if(params.get("status")!=null && !"".equals(params.get("status"))) {
+				status=QuotationStatus.valueOf(params.get("status"));
+				observableQuotationResponse= Observable.fromIterable(quotationRepository.findAll())
+						.filter(obj->obj.getStatus().equals(status))
+						.map(quotation -> getQuotationResponse(quotation))
+						.subscribeOn(Schedulers.io());
+			}else if (params.get("id")!=null && !"".equals(params.get("id"))){
+				id=new Long(params.get("id"));
+				observableQuotationResponse= Observable.fromIterable(quotationRepository.findAll())
+						.filter(obj->obj.getId().equals(id))
+						.map(quotation -> getQuotationResponse(quotation))
+						.subscribeOn(Schedulers.io());
+			}
+		}else {
+			observableQuotationResponse= Observable.fromIterable(quotationRepository.findAll())
+					.map(quotation -> getQuotationResponse(quotation))
+					.subscribeOn(Schedulers.io());
+		}
+		
+		return observableQuotationResponse;
+	}	
 }
