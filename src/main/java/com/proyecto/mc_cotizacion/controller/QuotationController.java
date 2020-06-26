@@ -28,6 +28,7 @@ import io.reactivex.Single;
 import java.util.Map;
 
 import javax.validation.Valid;
+import javax.ws.rs.core.Response;
 
 @RestController
 @RequestMapping (Constants.MAIN_PATH)
@@ -80,9 +81,11 @@ public class QuotationController {
 	
 	@PutMapping(Constants.PUTSTATUS)
 	@ApiOperation(value = "Actualizar status de la cotizacion", notes = "Metodo Put para actualizar  el estado de la Cotizacion" )
-	public Completable updateStatus(@PathVariable ("id") Long id, @RequestBody QuotationStatusRequest quotationStatusRequest) {
+	public Observable<Response> updateStatus(@PathVariable ("id") Long id, @RequestBody QuotationStatusRequest quotationStatusRequest) {
+
 		log.info("Actualizacion status de la Cotizacion");
-		return quotationService.updateStatus(id,quotationStatusRequest);
+		 quotationService.updateStatus(id,quotationStatusRequest);
+        return Observable.just(Response.status(Response.Status.NO_CONTENT).build());
 	}
 	
 	@GetMapping("/params")
