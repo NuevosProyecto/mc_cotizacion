@@ -25,6 +25,8 @@ import io.reactivex.CompletableSource;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -156,7 +158,7 @@ public class QuotationDaoImplement implements QuotationDao {
 
 	@Override
 	public Observable<Response> updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {	
-		maybeAt(id).flatMapCompletable(quotable ->{			
+		  maybeAt(id).flatMapCompletable(quotable ->{			
 			quotable.setStatus(quotationStatusRequest.getStatus());
 			return save(toQuotationRequest(quotable));		
 		});
