@@ -2,6 +2,8 @@ package com.proyecto.mc_cotizacion.dao;
 
 import java.util.Map;
 
+import javax.ws.rs.core.Response;
+
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
 import com.proyecto.mc_cotizacion.dto.request.QuotationStatusRequest;
 import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
@@ -19,6 +21,6 @@ public interface QuotationDao {
 	Single<QuotationSummaryResponse> getById(Long id);
 	Observable<QuotationResponse> findStatus(QuotationStatus status);
 	Observable<QuotationResponse> findAll();
-	Completable updateStatus(Long id, QuotationStatusRequest quotationStatusRequest);
+	Observable<Response> updateStatus(Long id, QuotationStatusRequest quotationStatusRequest);
 	Observable<QuotationResponse> findQueryParam(Map<String,String> params);
 }

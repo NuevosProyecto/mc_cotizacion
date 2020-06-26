@@ -2,6 +2,8 @@ package com.proyecto.mc_cotizacion.service.implement;
 
 import java.util.Map;
 
+import javax.ws.rs.core.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +51,7 @@ public class QuotationServiceImplement implements QuotationService {
 	}
 
 	@Override
-	public Completable updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {		
+	public Observable<Response> updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {		
 		return 	quotationDao.updateStatus(id, quotationStatusRequest);
 	}	
 	

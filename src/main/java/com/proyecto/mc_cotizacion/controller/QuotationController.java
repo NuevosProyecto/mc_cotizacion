@@ -84,8 +84,7 @@ public class QuotationController {
 	public Observable<Response> updateStatus(@PathVariable ("id") Long id, @RequestBody QuotationStatusRequest quotationStatusRequest) {
 
 		log.info("Actualizacion status de la Cotizacion");
-		 quotationService.updateStatus(id,quotationStatusRequest);
-        return Observable.just(Response.status(Response.Status.NO_CONTENT).build());
+		 return quotationService.updateStatus(id,quotationStatusRequest);
 	}
 	
 	@GetMapping("/params")

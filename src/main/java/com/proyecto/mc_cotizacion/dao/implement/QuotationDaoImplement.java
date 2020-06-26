@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.ws.rs.core.Response;
+
 import org.springframework.stereotype.Repository;
 
 import com.proyecto.mc_cotizacion.dao.QuotationDao;
@@ -153,11 +155,12 @@ public class QuotationDaoImplement implements QuotationDao {
 	}
 
 	@Override
-	public Completable updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {	
-		return maybeAt(id).flatMapCompletable(quotable ->{			
+	public Observable<Response> updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {	
+		maybeAt(id).flatMapCompletable(quotable ->{			
 			quotable.setStatus(quotationStatusRequest.getStatus());
 			return save(toQuotationRequest(quotable));		
 		});
+        return Observable.just(Response.status(Response.Status.NO_CONTENT).build());
 	}
 	
 	public QuotationRequest toQuotationRequest (Quotation quotation) {

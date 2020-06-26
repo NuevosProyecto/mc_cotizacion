@@ -3,6 +3,8 @@ package com.proyecto.mc_cotizacion.service;
 
 import java.util.Map;
 
+import javax.ws.rs.core.Response;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
@@ -22,6 +24,6 @@ public interface QuotationService {
 	Single<QuotationSummaryResponse> getById(Long id);
 	Observable<QuotationResponse> findStatus(QuotationStatus status);
 	Observable<QuotationResponse> findAll();
-	Completable updateStatus(Long id, QuotationStatusRequest quotationStatusRequest);
+	Observable<Response> updateStatus(Long id, QuotationStatusRequest quotationStatusRequest);
 	Observable<QuotationResponse> findQueryParam(Map<String,String> params);
 }
