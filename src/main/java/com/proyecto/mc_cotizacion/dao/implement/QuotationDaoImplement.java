@@ -200,11 +200,7 @@ public class QuotationDaoImplement implements QuotationDao {
 			if(params.get("id")!=null && !"".equals(params.get("id")) && params.get("status")!=null && !"".equals(params.get("status"))) {
 				id=new Long(params.get("id"));
 				status=QuotationStatus.valueOf(params.get("status"));
-				observableQuotationResponse= Observable.fromIterable(quotationRepository.findAll())
-						.filter(obj->obj.getId().equals(id))
-						.filter(obj->obj.getStatus().equals(status))
-						.map(quotation -> getQuotationResponse(quotation))
-						.subscribeOn(Schedulers.io());
+				
 			}else if(params.get("status")!=null && !"".equals(params.get("status"))) {
 				status=QuotationStatus.valueOf(params.get("status"));
 				observableQuotationResponse= Observable.fromIterable(quotationRepository.findAll())
