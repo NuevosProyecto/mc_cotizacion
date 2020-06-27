@@ -33,3 +33,4 @@ build/
 ###No se incluye estos archivos ###
 mvnw
 mvnw.cmd
+application.properties

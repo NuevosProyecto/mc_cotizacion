@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.proyecto.mc_cotizacion.dao.QuotationDao;
@@ -51,7 +52,7 @@ public class QuotationServiceImplement implements QuotationService {
 	}
 
 	@Override
-	public Observable<Response> updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {		
+	public Completable updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {		
 		return 	quotationDao.updateStatus(id, quotationStatusRequest);
 	}	
 	

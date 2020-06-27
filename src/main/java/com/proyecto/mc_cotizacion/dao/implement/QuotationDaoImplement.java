@@ -157,12 +157,12 @@ public class QuotationDaoImplement implements QuotationDao {
 	}
 
 	@Override
-	public Observable<Response> updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {	
-		  maybeAt(id).flatMapCompletable(quotable ->{			
+	public Completable updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {	
+		 return maybeAt(id).flatMapCompletable(quotable ->{			
 			quotable.setStatus(quotationStatusRequest.getStatus());
 			return save(toQuotationRequest(quotable));		
 		});
-        return Observable.just(Response.status(Response.Status.NO_CONTENT).build());
+        
 	}
 	
 	public QuotationRequest toQuotationRequest (Quotation quotation) {

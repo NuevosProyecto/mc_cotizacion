@@ -104,14 +104,18 @@ public class QuotationController {
 		}
 	}	
 	
-	@PutMapping(Constants.PUTSTATUS)//
+	@PutMapping(Constants.PUTSTATUS)
 	@ApiOperation(value = "Actualizar status de la cotizacion", notes = "Metodo Put para actualizar  el estado de la Cotizacion" )
-	public Observable<Response> updateStatus(@PathVariable ("id") Long id, @RequestBody QuotationStatusRequest quotationStatusRequest) {
-
+	public ResponseEntity<Completable> updateStatus(@PathVariable("id") Long id, @RequestBody QuotationStatusRequest quotationStatusRequest) {
 		log.info("Actualizacion status de la Cotizacion");
-		 return quotationService.updateStatus(id,quotationStatusRequest);
+		try {
+			return new ResponseEntity<>(quotationService.updateStatus(id, quotationStatusRequest), HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			return new ResponseEntity<>(quotationService.updateStatus(id, quotationStatusRequest),
+					HttpStatus.NOT_FOUND);
+		}
 	}
-	
+
 	@GetMapping("/params")
 	public ResponseEntity<Observable<QuotationResponse>> findByQueryParam(@RequestParam Map<String,String> params){
 		try {

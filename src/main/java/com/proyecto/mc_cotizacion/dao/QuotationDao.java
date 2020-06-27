@@ -21,6 +21,6 @@ public interface QuotationDao {
 	Single<QuotationSummaryResponse> getById(Long id);
 	Observable<QuotationResponse> findStatus(QuotationStatus status);
 	Observable<QuotationResponse> findAll();
-	Observable<Response> updateStatus(Long id, QuotationStatusRequest quotationStatusRequest);
+	Completable updateStatus(Long id, QuotationStatusRequest quotationStatusRequest);
 	Observable<QuotationResponse> findQueryParam(Map<String,String> params);
 }
