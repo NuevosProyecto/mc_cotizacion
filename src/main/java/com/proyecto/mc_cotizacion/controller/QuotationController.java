@@ -106,14 +106,18 @@ public class QuotationController {
 	
 	@PutMapping(Constants.PUTSTATUS)
 	@ApiOperation(value = "Actualizar status de la cotizacion", notes = "Metodo Put para actualizar  el estado de la Cotizacion" )
-	public ResponseEntity<Completable> updateStatus(@PathVariable("id") Long id, @RequestBody QuotationStatusRequest quotationStatusRequest) {
+	public ResponseEntity updateStatus(@PathVariable("id") Long id, @RequestBody QuotationStatusRequest quotationStatusRequest) {
 		log.info("Actualizacion status de la Cotizacion");
 		try {
-			return new ResponseEntity<>(quotationService.updateStatus(id, quotationStatusRequest), HttpStatus.NO_CONTENT);
+			if(quotationService.updateStatus(id, quotationStatusRequest)==1)
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			if(quotationService.updateStatus(id, quotationStatusRequest)==0)
+				return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(quotationService.updateStatus(id, quotationStatusRequest),
 					HttpStatus.NOT_FOUND);
 		}
+		return null;
 	}
 
 	@GetMapping("/params")

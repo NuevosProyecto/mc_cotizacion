@@ -52,7 +52,7 @@ public class QuotationServiceImplement implements QuotationService {
 	}
 
 	@Override
-	public Completable updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {		
+	public int updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {		
 		return 	quotationDao.updateStatus(id, quotationStatusRequest);
 	}	
 	

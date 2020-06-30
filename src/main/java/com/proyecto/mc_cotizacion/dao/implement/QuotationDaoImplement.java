@@ -2,6 +2,7 @@ package com.proyecto.mc_cotizacion.dao.implement;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.Response;
@@ -157,38 +158,35 @@ public class QuotationDaoImplement implements QuotationDao {
 	}
 
 	@Override
-	public Completable updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {	
-		 return maybeAt(id).flatMapCompletable(quotable ->{			
-			quotable.setStatus(quotationStatusRequest.getStatus());
-			return save(toQuotationRequest(quotable));		
-		});
+	public int updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {
+		return quotationRepository.updateStatusById(id, quotationStatusRequest.getStatus());			
         
 	}
 	
-	public QuotationRequest toQuotationRequest (Quotation quotation) {
-		QuotationRequest model = new QuotationRequest () ;
-		model.setId(quotation.getId());
-		model.setNumberQuotation(quotation.getNumberQuotation());
-		model.setClient(quotation.getClient());
-		model.setDateQuotation(quotation.getDateQuotation());
-		model.setStatus(quotation.getStatus());
-		model.setItems(getListItemRequest(quotation.getItems()));		
-		return model;
-	}
-    
-	private List<QuotationItemRequest> getListItemRequest(List<QuotationItem> items) {
-		return items.stream().map(item->getQuotationItemRequest(item))
-				.collect(Collectors.toList());        
-    }
-	private QuotationItemRequest getQuotationItemRequest(QuotationItem item) {
-		QuotationItemRequest quotationItem = new QuotationItemRequest();
-   	 	quotationItem.setId(item.getId());
-   	 	quotationItem.setIdDetail(item.getIdDetail());
-   	 	quotationItem.setDescription(item.getDescription());
-   	 	quotationItem.setUnitAmount(item.getUnitAmount());
-   	 	quotationItem.setQuantity(item.getQuantity());
-		return quotationItem;
-	}
+//	public QuotationRequest toQuotationRequest (Quotation quotation) {
+//		QuotationRequest model = new QuotationRequest () ;
+//		model.setId(quotation.getId());
+//		model.setNumberQuotation(quotation.getNumberQuotation());
+//		model.setClient(quotation.getClient());
+//		model.setDateQuotation(quotation.getDateQuotation());
+//		model.setStatus(quotation.getStatus());
+//		model.setItems(getListItemRequest(quotation.getItems()));		
+//		return model;
+//	}
+//    
+//	private List<QuotationItemRequest> getListItemRequest(List<QuotationItem> items) {
+//		return items.stream().map(item->getQuotationItemRequest(item))
+//				.collect(Collectors.toList());        
+//    }
+//	private QuotationItemRequest getQuotationItemRequest(QuotationItem item) {
+//		QuotationItemRequest quotationItem = new QuotationItemRequest();
+//   	 	quotationItem.setId(item.getId());
+//   	 	quotationItem.setIdDetail(item.getIdDetail());
+//   	 	quotationItem.setDescription(item.getDescription());
+//   	 	quotationItem.setUnitAmount(item.getUnitAmount());
+//   	 	quotationItem.setQuantity(item.getQuantity());
+//		return quotationItem;
+//	}
 
 	@Override
 	public Observable<QuotationResponse> findQueryParam(Map<String, String> params) {
