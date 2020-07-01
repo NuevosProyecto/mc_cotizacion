@@ -1,5 +1,7 @@
 package com.proyecto.mc_cotizacion.dao.implement;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -11,8 +13,10 @@ import org.springframework.stereotype.Repository;
 import com.proyecto.mc_cotizacion.dao.QuotationDao;
 import com.proyecto.mc_cotizacion.dto.request.QuotationItemRequest;
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
+import com.proyecto.mc_cotizacion.dto.request.QuotationStatusRequest;
 import com.proyecto.mc_cotizacion.dto.response.QuotationItemResponse;
 import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
+import com.proyecto.mc_cotizacion.dto.response.QuotationStatusResponse;
 import com.proyecto.mc_cotizacion.dto.response.QuotationSummaryResponse;
 import com.proyecto.mc_cotizacion.entity.Quotation;
 import com.proyecto.mc_cotizacion.entity.QuotationItem;
@@ -150,5 +154,12 @@ public class QuotationDaoImplement implements QuotationDao {
 		return Observable.fromIterable(quotationRepository.getData(id, status))
 				.map(quotation -> getQuotationResponse(quotation))
 				.subscribeOn(Schedulers.io());		
+	}
+
+	//@Override
+	public Observable<QuotationStatusResponse> updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {
+		QuotationStatusResponse quotationStatusResponse = new QuotationStatusResponse();
+		quotationStatusResponse.setUpdate(quotationRepository.updateStatusById(id, quotationStatusRequest.getStatus()));
+		return Observable.just(quotationStatusResponse).map(x->x).subscribeOn(Schedulers.io()); 
 	}
 }

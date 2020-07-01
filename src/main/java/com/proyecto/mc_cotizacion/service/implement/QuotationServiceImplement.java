@@ -1,5 +1,6 @@
 package com.proyecto.mc_cotizacion.service.implement;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +9,15 @@ import org.springframework.stereotype.Service;
 
 import com.proyecto.mc_cotizacion.dao.QuotationDao;
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
+import com.proyecto.mc_cotizacion.dto.request.QuotationStatusRequest;
 import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
+import com.proyecto.mc_cotizacion.dto.response.QuotationStatusResponse;
 import com.proyecto.mc_cotizacion.entity.QuotationStatus;
 import com.proyecto.mc_cotizacion.service.QuotationService;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
@@ -57,6 +61,11 @@ public class QuotationServiceImplement implements QuotationService {
 		}
 		
 		return obsQuotationResponse;
+	}
+
+	@Override
+	public Observable<QuotationStatusResponse> updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {
+		return quotationDao.updateStatus(id,quotationStatusRequest);
 	}
 	
 }
