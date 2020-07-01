@@ -156,7 +156,7 @@ public class QuotationDaoImplement implements QuotationDao {
 				.subscribeOn(Schedulers.io());		
 	}
 
-	//@Override
+	@Override
 	public Observable<QuotationStatusResponse> updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {
 		QuotationStatusResponse quotationStatusResponse = new QuotationStatusResponse();
 		quotationStatusResponse.setUpdate(quotationRepository.updateStatusById(id, quotationStatusRequest.getStatus()));
