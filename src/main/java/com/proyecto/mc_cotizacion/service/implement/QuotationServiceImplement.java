@@ -2,23 +2,19 @@ package com.proyecto.mc_cotizacion.service.implement;
 
 import java.util.Map;
 
-import javax.ws.rs.core.Response;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proyecto.mc_cotizacion.dao.QuotationDao;
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
-import com.proyecto.mc_cotizacion.dto.request.QuotationStatusRequest;
 import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
-import com.proyecto.mc_cotizacion.dto.response.QuotationSummaryResponse;
 import com.proyecto.mc_cotizacion.entity.QuotationStatus;
 import com.proyecto.mc_cotizacion.service.QuotationService;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.Single;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 public class QuotationServiceImplement implements QuotationService {
 	
@@ -34,30 +30,32 @@ public class QuotationServiceImplement implements QuotationService {
 	public Completable update(QuotationRequest model) {		
 		return quotationDao.update(model);
 	}
-
-	@Override
-	public Single<QuotationSummaryResponse> getById(Long id) {
-		return quotationDao.getById(id);
-	}
-
-	@Override
-	public Observable<QuotationResponse> findStatus(QuotationStatus status) {
-		return quotationDao.findStatus(status);
-	}
-
-	@Override
-	public Observable<QuotationResponse> findAll() {
-		return quotationDao.findAll();
-	}
-
-	@Override
-	public Observable<Response> updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {		
-		return 	quotationDao.updateStatus(id, quotationStatusRequest);
-	}	
 	
 	@Override
-	public Observable<QuotationResponse> findQueryParam(Map<String, String> params) {
-		return quotationDao.findQueryParam(params);
+	public Observable<QuotationResponse> getData(Map<String, String> params) {
+		log.info("Search Dynamic");
+		
+		Observable<QuotationResponse> obsQuotationResponse=null;
+		Long id;QuotationStatus status;
+		if(!params.isEmpty()) {
+			if(params.get("id")!=null && !"".equals(params.get("id")) && params.get("status")!=null && !"".equals(params.get("status"))) {
+				id=new Long(params.get("id"));
+				status=QuotationStatus.valueOf(params.get("status"));
+				log.info("Po id y estado");
+				obsQuotationResponse=quotationDao.getData(id, status);
+				
+			}else if((params.get("id")==null || "".equals(params.get("id"))) && params.get("status")!=null && !"".equals(params.get("status"))) {
+				status=QuotationStatus.valueOf(params.get("status"));
+				obsQuotationResponse=quotationDao.findByStatus(status);
+				log.info("por estado");
+			}else if (params.get("id")!=null && !"".equals(params.get("id"))){
+				id=new Long(params.get("id"));
+				obsQuotationResponse=quotationDao.getById(id);
+				log.info("por id");
+			}
+		}
+		
+		return obsQuotationResponse;
 	}
 	
 }

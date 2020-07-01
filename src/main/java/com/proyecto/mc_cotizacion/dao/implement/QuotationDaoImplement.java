@@ -1,17 +1,14 @@
 package com.proyecto.mc_cotizacion.dao.implement;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Repository;
 
 import com.proyecto.mc_cotizacion.dao.QuotationDao;
 import com.proyecto.mc_cotizacion.dto.request.QuotationItemRequest;
 import com.proyecto.mc_cotizacion.dto.request.QuotationRequest;
-import com.proyecto.mc_cotizacion.dto.request.QuotationStatusRequest;
 import com.proyecto.mc_cotizacion.dto.response.QuotationItemResponse;
 import com.proyecto.mc_cotizacion.dto.response.QuotationResponse;
 import com.proyecto.mc_cotizacion.dto.response.QuotationSummaryResponse;
@@ -21,12 +18,9 @@ import com.proyecto.mc_cotizacion.entity.QuotationStatus;
 import com.proyecto.mc_cotizacion.repository.QuotationRepository;
 
 import io.reactivex.Completable;
-import io.reactivex.CompletableSource;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -93,12 +87,13 @@ public class QuotationDaoImplement implements QuotationDao {
         	.switchIfEmpty(Maybe.empty());
     }
 
+    
     @Override
-    public Single<QuotationSummaryResponse> getById(Long id) {
+    public Observable<QuotationResponse> getById(Long id) {
 		log.info("seteo de datos por Id");
-        return maybeAt(id).map(quotation -> getQuotationSummaryResponse(quotation))
-        		.toSingle();
+        return maybeAt(id).map(quotation -> getQuotationResponse(quotation)).toObservable();        		
     }
+    
     
     public QuotationSummaryResponse getQuotationSummaryResponse(Quotation quotation) {
     	QuotationSummaryResponse quotationResponse=new QuotationSummaryResponse();
@@ -110,24 +105,16 @@ public class QuotationDaoImplement implements QuotationDao {
 		quotationResponse.setStatus(quotation.getStatus());	
 		return quotationResponse;
 	}
-
+    
 	@Override
-	public Observable<QuotationResponse> findAll() {
-		log.info("seteo de todos los datos registrados");
-		return Observable.fromIterable(quotationRepository.findAll())
-				.map(quotation->getQuotationResponse(quotation))
-				.subscribeOn(Schedulers.io());
-	}
-	
-	@Override
-    public Observable<QuotationResponse> findStatus(QuotationStatus status) {
+    public Observable<QuotationResponse> findByStatus(QuotationStatus status) {
 		log.info("seteo de datos por Status");
-		return     Observable.fromIterable(quotationRepository.findAll())
+		return     Observable.fromIterable(quotationRepository.findByStatus(status))
 					.filter(objStatus -> objStatus.getStatus().equals(status))
 					.map(quotation -> getQuotationResponse(quotation))
 					.subscribeOn(Schedulers.io());
 	}
-		
+			
 	public QuotationResponse getQuotationResponse(Quotation quotation) {
 		QuotationResponse quotationResponse=new QuotationResponse();
 		quotationResponse.setId(quotation.getId());
@@ -154,15 +141,6 @@ public class QuotationDaoImplement implements QuotationDao {
    	 	quotationItem.setQuantity(item.getQuantity());
         quotationItem.setTotalDetailAmount(item.getTotalAmount());
 		return quotationItem;
-	}
-
-	@Override
-	public Observable<Response> updateStatus(Long id, QuotationStatusRequest quotationStatusRequest) {	
-		  maybeAt(id).flatMapCompletable(quotable ->{			
-			quotable.setStatus(quotationStatusRequest.getStatus());
-			return save(toQuotationRequest(quotable));		
-		});
-        return Observable.just(Response.status(Response.Status.NO_CONTENT).build());
 	}
 	
 	public QuotationRequest toQuotationRequest (Quotation quotation) {
@@ -191,35 +169,10 @@ public class QuotationDaoImplement implements QuotationDao {
 	}
 
 	@Override
-	public Observable<QuotationResponse> findQueryParam(Map<String, String> params) {
-		log.info("Parametro: "+params);
-		Observable<QuotationResponse> observableQuotationResponse=null;
-		Long id;QuotationStatus status;
+	public Observable<QuotationResponse> getData(Long id, QuotationStatus status) {
+		return Observable.fromIterable(quotationRepository.getData(id, status))
+				.map(quotation -> getQuotationResponse(quotation))
+				.subscribeOn(Schedulers.io());
 		
-		if(!params.isEmpty()) {
-			if(params.get("id")!=null && !"".equals(params.get("id")) && params.get("status")!=null && !"".equals(params.get("status"))) {
-				id=new Long(params.get("id"));
-				status=QuotationStatus.valueOf(params.get("status"));
-				
-			}else if(params.get("status")!=null && !"".equals(params.get("status"))) {
-				status=QuotationStatus.valueOf(params.get("status"));
-				observableQuotationResponse= Observable.fromIterable(quotationRepository.findAll())
-						.filter(obj->obj.getStatus().equals(status))
-						.map(quotation -> getQuotationResponse(quotation))
-						.subscribeOn(Schedulers.io());
-			}else if (params.get("id")!=null && !"".equals(params.get("id"))){
-				id=new Long(params.get("id"));
-				observableQuotationResponse= Observable.fromIterable(quotationRepository.findAll())
-						.filter(obj->obj.getId().equals(id))
-						.map(quotation -> getQuotationResponse(quotation))
-						.subscribeOn(Schedulers.io());
-			}
-		}else {
-			observableQuotationResponse= Observable.fromIterable(quotationRepository.findAll())
-					.map(quotation -> getQuotationResponse(quotation))
-					.subscribeOn(Schedulers.io());
-		}
-		
-		return observableQuotationResponse;
-	}	
+	}
 }
