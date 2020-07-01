@@ -111,7 +111,7 @@ public class QuotationDaoImplement implements QuotationDao {
 	@Override
     public Observable<QuotationResponse> findByStatus(QuotationStatus status) {
 		log.info("seteo de datos por Status");
-		return     Observable.fromIterable(quotationRepository.findByStatus(status))
+		return Observable.fromIterable(quotationRepository.findByStatus(status))
 					.filter(objStatus -> objStatus.getStatus().equals(status))
 					.map(quotation -> getQuotationResponse(quotation))
 					.subscribeOn(Schedulers.io());
