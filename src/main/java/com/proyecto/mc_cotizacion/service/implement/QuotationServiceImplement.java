@@ -3,6 +3,7 @@ package com.proyecto.mc_cotizacion.service.implement;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.proyecto.mc_cotizacion.dao.QuotationDao;
@@ -30,7 +31,7 @@ public class QuotationServiceImplement implements QuotationService {
 	public Completable update(QuotationRequest model) {		
 		return quotationDao.update(model);
 	}
-	
+
 	@Override
 	public Observable<QuotationResponse> getData(Map<String, String> params) {
 		log.info("Search Dynamic");

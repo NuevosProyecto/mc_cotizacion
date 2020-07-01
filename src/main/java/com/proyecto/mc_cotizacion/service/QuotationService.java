@@ -8,7 +8,6 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 
 public interface QuotationService {
-
 	Completable save(QuotationRequest model);
 	Completable update(QuotationRequest model);
 	Observable<QuotationResponse> getData(Map<String,String> params);

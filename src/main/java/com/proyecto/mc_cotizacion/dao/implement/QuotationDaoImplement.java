@@ -1,6 +1,8 @@
 package com.proyecto.mc_cotizacion.dao.implement;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -142,37 +144,11 @@ public class QuotationDaoImplement implements QuotationDao {
         quotationItem.setTotalDetailAmount(item.getTotalAmount());
 		return quotationItem;
 	}
-	
-	public QuotationRequest toQuotationRequest (Quotation quotation) {
-		QuotationRequest model = new QuotationRequest () ;
-		model.setId(quotation.getId());
-		model.setNumberQuotation(quotation.getNumberQuotation());
-		model.setClient(quotation.getClient());
-		model.setDateQuotation(quotation.getDateQuotation());
-		model.setStatus(quotation.getStatus());
-		model.setItems(getListItemRequest(quotation.getItems()));		
-		return model;
-	}
-    
-	private List<QuotationItemRequest> getListItemRequest(List<QuotationItem> items) {
-		return items.stream().map(item->getQuotationItemRequest(item))
-				.collect(Collectors.toList());        
-    }
-	private QuotationItemRequest getQuotationItemRequest(QuotationItem item) {
-		QuotationItemRequest quotationItem = new QuotationItemRequest();
-   	 	quotationItem.setId(item.getId());
-   	 	quotationItem.setIdDetail(item.getIdDetail());
-   	 	quotationItem.setDescription(item.getDescription());
-   	 	quotationItem.setUnitAmount(item.getUnitAmount());
-   	 	quotationItem.setQuantity(item.getQuantity());
-		return quotationItem;
-	}
 
 	@Override
 	public Observable<QuotationResponse> getData(Long id, QuotationStatus status) {
 		return Observable.fromIterable(quotationRepository.getData(id, status))
 				.map(quotation -> getQuotationResponse(quotation))
-				.subscribeOn(Schedulers.io());
-		
+				.subscribeOn(Schedulers.io());		
 	}
 }
