@@ -12,4 +12,7 @@ public class Constants {
     public final static String SAVE_NOTE="Para el registro de la cotizacion , sera necesario el llenado de todo los campos , a excepcion de los Id´s los cuales seran generados automaticamente";
     public final static String UPDATE_VALUE="Metodo a traves del cual te permite cambiar datos especificos  de la Cotizacion, permitiendo asi contar con una base de datos actualizada";
     public final static String UPDATE_NOTE="Es necesario el envio del Id de la cotizacion , junto a sus campos debidamente actualizados con la informacion mas reciente";
+    public final static String UPDATESTATUS_VALUE = "Actualizar status de la cotizacion";
+    public final static String UPDATESTATUS_NOTE = "Metodo  para actualizar  el estado de la Cotizacion 1: actuliazacion correcta y 0: no se actulizo el campo";
+    
 }

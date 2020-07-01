@@ -61,7 +61,7 @@ public class QuotationController {
 	}
 	
 	@PutMapping(Constants.STATUS)
-	@ApiOperation(value = "Actualizar status de la cotizacion", notes = "Metodo Put para actualizar  el estado de la Cotizacion" )
+	@ApiOperation(value = Constants.UPDATESTATUS_VALUE, notes = Constants.UPDATESTATUS_NOTE)
 	public Observable<QuotationStatusResponse> updateStatus(@PathVariable("id") Long id, @RequestBody QuotationStatusRequest quotationStatusRequest) {
 		log.info("Actualizacion status de la Cotizacion");			
 			return quotationService.updateStatus(id, quotationStatusRequest);
